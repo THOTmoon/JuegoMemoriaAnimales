@@ -6,23 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const botonReiniciar = document.getElementById("reiniciar");
   
     // Sonidos del juego
-    let audioVoltear = new Audio('audio/Voltear.mp3');     // Al voltear una carta
-    let audioVictoria = new Audio('audio/Victoria.mp3');   // Al ganar
-    let audioError = new Audio('audio/Error.mp3');         // Al no coincidir
-  
-    function playSound(audio) {
-      audio.currentTime = 0; // Reinicia el sonido si ya se está reproduciendo
-      audio.play().catch(() => {});
-    }
-  
-    const imagenes = [
-      "Foto1.jpg",
-      "Foto2.jpg",
-      "Foto3.jpg",
-      "Foto4.jpg",
-      "Foto5.jpg",
-      "Foto6.jpg"
-    ];
+    let audioVoltear = new Audio('audio/Voltear.mp3');
+    let audioVictoria = new Audio('audio/Victoria.mp3');
+    let audioError = new Audio('audio/Error.mp3');
   
     // Asociar cada imagen con su archivo de audio
     const audiosPorImagen = {
@@ -33,6 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
       "Foto5.jpg": "audio/Bebegato.mp3",
       "Foto6.jpg": "audio/Bebemono.mp3"
     };
+  
+    function playSound(audio) {
+      try {
+        audio.currentTime = 0;
+        audio.play();
+      } catch (e) {
+        console.warn("Error al reproducir sonido:", e);
+      }
+    }
+  
+    const imagenes = [
+      "Foto1.jpg",
+      "Foto2.jpg",
+      "Foto3.jpg",
+      "Foto4.jpg",
+      "Foto5.jpg",
+      "Foto6.jpg"
+    ];
   
     let juego = [...imagenes, ...imagenes];
     let primeraCarta = null;
@@ -121,8 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
               setTimeout(() => {
                 desvoltearCartas(primeraCarta, segundaCarta);
                 resetearSeleccion();
-  
-                // Reproducir sonido de error
                 playSound(audioError);
               }, 1000);
             }
@@ -157,9 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(temporizador);
         mensajeDisplay.textContent = `🎉 ¡Felicidades! Has completado el juego en ${tiempo} segundos con ${intentos} intentos.`;
         mensajeDisplay.classList.add("mostrar");
-  
-        // Reproducir sonido de victoria
-        playSound(audioVictoria);
+        // Retrasar el sonido de victoria para asegurar que sea disparado por una acción del usuario
+        setTimeout(() => playSound(audioVictoria), 500);
       }
     }
   
