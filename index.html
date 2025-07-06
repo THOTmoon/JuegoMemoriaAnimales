@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Juego de Memoria</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Juego de Memoria</title>
+    
+    <!-- Importamos las fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Enlace a tu hoja de estilos -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1>Juego de Memoria</h1>
+    <!-- Pantalla de Inicio -->
+    <div id="pantalla-inicio">
+        <div class="splash-container">
+            <button id="boton-jugar">Jugar</button>
+        </div>
+    </div>
 
-  <div class="info">
-    <p>Tiempo: <span id="tiempo">0</span> seg</p>
-    <p>Intentos: <span id="intentos">0</span></p>
-  </div>
+    <!-- Contenedor Principal del Juego -->
+    <main id="juego-principal" class="hidden">
+        <h1>Juego de Memoria</h1>
+        <div class="info">
+            <p>Tiempo: <span id="tiempo">0</span></p>
+            <p>Intentos: <span id="intentos">0</span></p>
+        </div>
+        <div class="tablero" id="tablero"></div>
+        <div id="mensaje" class="mensaje"></div>
+        <button id="reiniciar">Reiniciar Juego</button>
+    </main>
 
-  <button id="reiniciar">Reiniciar Juego</button>
+    <!-- ✅ ELEMENTOS DE AUDIO CON LA RUTA CORRECTA -->
+    <audio id="sonido-inicio" src="audio/start-sound.mp3" preload="auto"></audio>
 
-  <div id="mensaje" class="mensaje"></div>
+    <script src="script.js"></script>
 
-  <div class="tablero" id="tablero"></div>
-
-  <script src="script.js"></script>
 </body>
 </html>
