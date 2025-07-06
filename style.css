@@ -1,178 +1,204 @@
+/* ======================================================== */
+/* --- CÓDIGO CSS FINAL - CON CONTADORES OCULTOS --- */
+/* ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  background-image: url('images/Fondoanimal.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #3F51B5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* --- Estilos Pantalla de Inicio --- */
+#pantalla-inicio {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 0.5s ease;
+}
+
+.splash-container {
+  width: 100%;
+  height: 100%;
+  max-width: 450px; 
+  max-height: 800px;
+  background-image: url('images/Fondoanimal.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+#boton-jugar {
+  padding: 15px 40px;
+  font-size: 1.8em;
+  font-weight: 700;
+  color: white;
+  background-color: #007BFF;
+  border: 3px solid white;
+  border-radius: 50px;
+  cursor: pointer;
   
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #E0F7FA;
-    color: #3F51B5;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow-x: hidden;
-  }
+  /* ✅ SOMBRA: Añade profundidad al botón */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   
-  h1 {
-    margin: 20px 0 10px;
-    font-size: 2.5em;
-    color: #3F51B5;
-  }
+  /* Transición suave para todos los efectos */
+  transition: all 0.3s ease; 
+}
+
+#boton-jugar:hover {
+  transform: scale(1.05);
+  /* ✅ MEJORA: La sombra también se hace más grande en hover */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Estructura Principal del Juego --- */
+#juego-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 2.2em;
+  margin-bottom: 15px;
+  color: #B22222;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+/* ✅ LOS CONTADORES AHORA ESTÁN OCULTOS */
+.info {
+  display: none;
+}
+
+#reiniciar {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-family: 'Quicksand', sans-serif; /* Aseguramos la fuente correcta */
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: #FFC107; /* Color mango */
+  color: #333;
+  border: none;
+  border-radius: 50px;
   
-  .info {
-    margin-top: 20px;
-    font-size: 1.2em;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    color: #5C6BC0;
-    font-weight: bold;
-  }
-  
-  .info span {
-    color: #FF7043;
-  }
-  
-  #reiniciar {
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 1.2em;
-    cursor: pointer;
-    background-color: #FF5722;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  #reiniciar:hover {
-    background-color: #E64A19;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  #reiniciar:active {
-    transform: translateY(0);
-  }
-  
-  .tablero {
-    display: grid;
-    grid-template-columns: repeat(4, 120px);
-    grid-gap: 18px;
-    justify-content: center;
-    margin-top: 20px;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 6px 6px rgba(0, 0, 0, 0.1);
-    perspective: 1000px;
-  }
-  
-  .carta {
-    width: 120px;
-    height: 120px;
-    cursor: pointer;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-out;
-    transform-style: preserve-3d;
-  }
-  
-  .carta:hover:not(.abierta):not(.emparejada) {
-    transform: scale(1.03) translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .carta-flip {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-  
-  .carta.abierta .carta-flip,
-  .carta.emparejada .carta-flip {
-    transform: rotateY(180deg);
-  }
-  
-  .frente,
-  .atras {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: cover; /* Asegura que la imagen cubra todo */
-    background-position: center; /* Centra la imagen */
-  }
-  
-  .frente {
-    background: url('images/interrogacion.png') no-repeat center center / cover;
-    background-color: #607D8B;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-    transform: rotateY(0deg);
-  }
-  
-  .atras {
-    background-color: #BBDEFB;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    transform: rotateY(180deg);
-  }
-  
-  .mensaje {
-    margin-top: 20px;
-    font-size: 1.5em;
-    color: #4CAF50;
-    font-weight: bold;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
-  }
-  
-  .mensaje.mostrar {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  @media (max-width: 580px) {
-    .tablero {
-      grid-template-columns: repeat(3, 100px);
-      grid-gap: 12px;
-      padding: 15px;
-    }
-    .carta {
-      width: 100px;
-      height: 100px;
-    }
-    h1 {
-      font-size: 2em;
-    }
-    .info {
-      font-size: 1.1em;
-      gap: 15px;
-    }
-    #reiniciar {
-      font-size: 1.1em;
-      padding: 10px 20px;
-    }
-    .mensaje {
-      font-size: 1.3em;
-    }
-  }
-  
-  @media (max-width: 420px) {
-    .tablero {
-      grid-template-columns: repeat(2, 100px);
-      grid-gap: 10px;
-    }
-  }
+  /* Añadimos la sombra y la transición */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+#reiniciar:hover {
+  background-color: #FFA000; /* Tono más oscuro */
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+}
+
+/* --- Resto del código --- */
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 12px;
+  width: 100%;
+  margin-top: 15px;
+  perspective: 1000px;
+}
+
+.carta {
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border-radius: 8px;
+  transform-style: preserve-3d;
+}
+
+.carta-flip {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.carta.abierta .carta-flip,
+.carta.emparejada .carta-flip {
+  transform: rotateY(180deg);
+}
+
+.frente, .atras {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.frente {
+  background: url('images/interrogacion.png') no-repeat center center / cover;
+  background-color: #607D8B;
+}
+
+.atras {
+  background-color: #BBDEFB;
+  transform: rotateY(180deg);
+}
+
+.mensaje {
+  margin-top: 20px;
+  font-size: 1.3em;
+  color: #FFC107;
+  font-weight: 700;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+.hidden {
+  display: none !important;
+}
