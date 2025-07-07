@@ -1,5 +1,5 @@
 // ======================================================== //
-// --- SCRIPT.JS ACTUALIZADO CON VIDEO DE VICTORIA --- //
+// --- SCRIPT.JS ACTUALIZADO CON GIF DE VICTORIA --- //
 // ======================================================== //
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pantallaInicio = document.getElementById('pantalla-inicio');
   const botonJugar = document.getElementById('boton-jugar');
   const sonidoInicio = document.getElementById('sonido-inicio');
-  
+
   const juegoPrincipal = document.getElementById('juego-principal');
   const tablero = document.getElementById('tablero');
   const tiempoDisplay = document.getElementById('tiempo');
@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Selectores para la pantalla de victoria ---
   const pantallaVictoria = document.getElementById('pantalla-victoria');
-  const videoCelebracion = document.getElementById('video-celebracion');
+  // !!! IMPORTANTE: Este selector ahora apunta a un elemento <IMG> con este ID !!!
+  const elementoCelebracion = document.getElementById('video-celebracion');
 
 
   // --- SONIDOS DEL JUEGO ---
@@ -43,12 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     "Foto5.jpg": "audio/Bebegato.mp3",
     "Foto6.jpg": "audio/Bebemono.mp3"
   };
-  // Array con los nombres de los videos de celebración
-  const videosCelebracion = [
-    "Celebracion-Foto1.mp4", "Celebracion-Foto2.mp4", "Celebracion-Foto3.mp4",
-    "Celebracion-Foto4.mp4", "Celebracion-Foto5.mp4", "Celebracion-Foto6.mp4"
+  // Array con los nombres de los GIF de celebración (¡Actualizado a .gif!)
+  const gifsCelebracion = [
+    "celebracion-Foto1.gif", "celebracion-Foto2.gif", "celebracion-Foto3.gif", // Asegúrate que estos sean los nombres reales de tus archivos GIF
+    "celebracion-Foto4.gif", "celebracion-Foto5.gif", "celebracion-Foto6.gif"
   ];
-  
+
   let juego;
   let primeraCarta = null;
   let segundaCarta = null;
@@ -63,11 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function iniciarPartida() {
     playSound(sonidoInicio);
-    
+
     // Oculta las pantallas modales y muestra el tablero del juego
     pantallaInicio.classList.add('hidden');
     pantallaVictoria.classList.add('hidden'); // Asegura que la pantalla de victoria esté oculta
     juegoPrincipal.classList.remove('hidden');
+
+    // Opcional: Limpiar la fuente del GIF al iniciar una nueva partida
+    elementoCelebracion.src = '';
+
 
     resetearEstadoJuego();
     generarTablero();
@@ -79,14 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     bloqueoTablero = false;
     intentos = 0;
     tiempo = 0;
-    
+
     mensajeDisplay.textContent = "";
     // Oculta el mensaje si tiene una clase para mostrarlo (ej. 'mostrar')
-    mensajeDisplay.classList.remove("mostrar"); 
-    
+    mensajeDisplay.classList.remove("mostrar");
+
     intentosDisplay.textContent = intentos;
     tiempoDisplay.textContent = tiempo;
-    
+
     clearInterval(temporizador);
     temporizador = setInterval(() => {
       tiempo++;
@@ -141,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function manejarCoincidencia() {
     primeraCarta.classList.add("emparejada");
     segundaCarta.classList.add("emparejada");
-    
+
     const audioEmparejamiento = new Audio(audiosPorImagen[primeraCarta.dataset.imagen]);
     playSound(audioEmparejamiento);
-    
+
     resetearTurno();
     verificarVictoria();
   }
@@ -168,38 +173,47 @@ document.addEventListener('DOMContentLoaded', () => {
       clearInterval(temporizador);
       playSound(audioVictoria);
 
-      // Esperamos un momento antes de mostrar el video para que el usuario vea la última pareja
+      // Esperamos un momento antes de mostrar el GIF
       setTimeout(() => {
-        mostrarVideoAleatorio();
+        // Llama a la nueva función que muestra el GIF
+        mostrarGifAleatorio(); // <--- CAMBIADO
       }, 800);
     }
   }
 
-  // --- NUEVA FUNCIÓN PARA MOSTRAR VIDEO DE CELEBRACIÓN ---
-  function mostrarVideoAleatorio() {
-    // 1. Elegir un video al azar
-    const indiceAleatorio = Math.floor(Math.random() * videosCelebracion.length);
-    const videoSeleccionado = videosCelebracion[indiceAleatorio];
+  // --- FUNCIÓN PARA MOSTRAR GIF DE CELEBRACIÓN (MODIFICADA) ---
+  // Antes llamada mostrarVideoAleatorio
+  function mostrarGifAleatorio() { // <--- NOMBRE CAMBIADO (opcional)
+    // 1. Elegir un GIF al azar
+    const indiceAleatorio = Math.floor(Math.random() * gifsCelebracion.length); // Usar el array de GIFs
+    const gifSeleccionado = gifsCelebracion[indiceAleatorio];
 
-    // 2. Asignar la fuente del video y mostrar la pantalla de victoria
-    videoCelebracion.src = `videos/${videoSeleccionado}`;
+    // 2. Asignar la fuente del GIF y mostrar la pantalla de victoria
+    // Asegúrate de que 'elementoCelebracion' se refiere a tu elemento <img>
+    // y que la ruta 'gifs/' sea correcta para tus archivos GIF.
+    elementoCelebracion.src = `gifs/${gifSeleccionado}`; // <--- Asigna la fuente .gif (verifica la ruta)
     pantallaVictoria.classList.remove('hidden');
 
-    // 3. Reproducir el video (con manejo de errores por si el navegador lo bloquea)
-    videoCelebracion.play().catch(error => {
-      console.error("Error al intentar reproducir el video de victoria:", error);
-      // Si falla la reproducción, mostramos el mensaje de texto como fallback
-      mostrarMensajeFinal();
-    });
+    // !!! ELIMINADO: No necesitas llamar a .play() ni manejar errores de reproducción de video
+    // porque los GIFs se reproducen automáticamente en un elemento <img>
+    // videoCelebracion.play().catch(...)
 
-    // 4. Cuando el video termina, lo ocultamos y mostramos el mensaje final
-    videoCelebracion.onended = () => {
+    // !!! ELIMINADO: No necesitas el evento onended porque los GIFs no tienen este evento y se repiten
+    // videoCelebracion.onended = () => { ... }
+
+    // 3. Configurar un temporizador para ocultar el GIF y mostrar el mensaje final
+    // Ajusta este tiempo (en milisegundos) si quieres que el GIF se muestre más o menos tiempo.
+    const duracionMostrandoGif = 5000; // Muestra el GIF por 3 segundos (ejemplo)
+
+    setTimeout(() => {
       pantallaVictoria.classList.add('hidden');
       mostrarMensajeFinal();
-    };
+      // Opcional: Limpiar la fuente del GIF después de ocultarlo para liberar memoria
+      elementoCelebracion.src = '';
+    }, duracionMostrandoGif);
   }
 
-  // --- NUEVA FUNCIÓN PARA MOSTRAR EL TEXTO FINAL ---
+  // --- FUNCIÓN PARA MOSTRAR EL TEXTO FINAL ---
   function mostrarMensajeFinal() {
     mensajeDisplay.textContent = `🎉 ¡Felicidades! Has completado el juego en ${tiempo} segundos con ${intentos} intentos.`;
     mensajeDisplay.classList.add("mostrar"); // Usa una clase si quieres animar la aparición del texto
