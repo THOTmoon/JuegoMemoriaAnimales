@@ -25,16 +25,27 @@
     <!-- Contenedor Principal del Juego -->
     <main id="juego-principal" class="hidden">
         <h1>Juego de Memoria</h1>
-        <div class="info">
-            <p>Tiempo: <span id="tiempo">0</span></p>
-            <p>Intentos: <span id="intentos">0</span></p>
-        </div>
+        
+        <!-- INFO DEL JUEGO (Mejora Semántica con <ul>) -->
+        <ul class="info-juego">
+            <li>Tiempo: <span id="tiempo">0</span>s</li>
+            <li>Intentos: <span id="intentos">0</span></li>
+        </ul>
+        
         <div class="tablero" id="tablero"></div>
         <div id="mensaje" class="mensaje"></div>
         <button id="reiniciar">Reiniciar Juego</button>
     </main>
-
-    <!-- ✅ ELEMENTOS DE AUDIO CON LA RUTA CORRECTA -->
+    
+    <!-- ================================== -->
+    <!-- === NUEVA PANTALLA DE VICTORIA === -->
+    <!-- ================================== -->
+    <div id="pantalla-victoria" class="hidden">
+        <video id="video-celebracion" width="100%" muted playsinline></video>
+    </div>
+    <!-- ================================== -->
+    
+    <!-- Elementos de Audio -->
     <audio id="sonido-inicio" src="audio/start-sound.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
