@@ -1,5 +1,5 @@
 // ======================================================== //
-// --- SCRIPT.JS FINAL - CON SONIDO Y SOMBRA ACTIVADOS --- //
+// --- SCRIPT.JS ACTUALIZADO CON VIDEO DE VICTORIA --- //
 // ======================================================== //
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 1. SELECTORES DE ELEMENTOS DEL DOM ---
   const pantallaInicio = document.getElementById('pantalla-inicio');
   const botonJugar = document.getElementById('boton-jugar');
-  const sonidoInicio = document.getElementById('sonido-inicio'); // <-- ✅ Seleccionamos el nuevo audio
+  const sonidoInicio = document.getElementById('sonido-inicio');
   
   const juegoPrincipal = document.getElementById('juego-principal');
   const tablero = document.getElementById('tablero');
@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const intentosDisplay = document.getElementById('intentos');
   const mensajeDisplay = document.getElementById('mensaje');
   const botonReiniciar = document.getElementById('reiniciar');
+
+  // --- Selectores para la pantalla de victoria ---
+  const pantallaVictoria = document.getElementById('pantalla-victoria');
+  const videoCelebracion = document.getElementById('video-celebracion');
+
 
   // --- SONIDOS DEL JUEGO ---
   const audioVoltear = new Audio('audio/Voltear.mp3');
@@ -38,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
     "Foto5.jpg": "audio/Bebegato.mp3",
     "Foto6.jpg": "audio/Bebemono.mp3"
   };
+  // Array con los nombres de los videos de celebración
+  const videosCelebracion = [
+    "celebracion-Foto1.mp4", "celebracion-Foto2.mp4", "celebracion-Foto3.mp4",
+    "celebracion-Foto4.mp4", "celebracion-Foto5.mp4", "celebracion-Foto6.mp4"
+  ];
   
   let juego;
   let primeraCarta = null;
@@ -52,18 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
   botonReiniciar.addEventListener('click', iniciarPartida);
 
   function iniciarPartida() {
-    // ✅ REPRODUCIMOS EL SONIDO AL INICIO DE LA PARTIDA
     playSound(sonidoInicio);
     
-    // Oculta la pantalla de inicio y muestra el tablero del juego
+    // Oculta las pantallas modales y muestra el tablero del juego
     pantallaInicio.classList.add('hidden');
+    pantallaVictoria.classList.add('hidden'); // Asegura que la pantalla de victoria esté oculta
     juegoPrincipal.classList.remove('hidden');
 
     resetearEstadoJuego();
     generarTablero();
   }
-  
-  // (El resto de tus funciones no necesitan cambios)
 
   function resetearEstadoJuego() {
     primeraCarta = null;
@@ -72,8 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     intentos = 0;
     tiempo = 0;
     
-    mensajeDisplay.classList.remove("mostrar");
     mensajeDisplay.textContent = "";
+    // Oculta el mensaje si tiene una clase para mostrarlo (ej. 'mostrar')
+    mensajeDisplay.classList.remove("mostrar"); 
+    
     intentosDisplay.textContent = intentos;
     tiempoDisplay.textContent = tiempo;
     
@@ -152,13 +162,47 @@ document.addEventListener('DOMContentLoaded', () => {
     [primeraCarta, segundaCarta, bloqueoTablero] = [null, null, false];
   }
 
+  // --- FUNCIÓN DE VICTORIA MODIFICADA ---
   function verificarVictoria() {
     if (document.querySelectorAll(".emparejada").length === juego.length) {
       clearInterval(temporizador);
-      mensajeDisplay.textContent = `🎉 ¡Felicidades! Has completado el juego en ${tiempo} segundos con ${intentos} intentos.`;
-      mensajeDisplay.classList.add("mostrar");
       playSound(audioVictoria);
+
+      // Esperamos un momento antes de mostrar el video para que el usuario vea la última pareja
+      setTimeout(() => {
+        mostrarVideoAleatorio();
+      }, 800);
     }
+  }
+
+  // --- NUEVA FUNCIÓN PARA MOSTRAR VIDEO DE CELEBRACIÓN ---
+  function mostrarVideoAleatorio() {
+    // 1. Elegir un video al azar
+    const indiceAleatorio = Math.floor(Math.random() * videosCelebracion.length);
+    const videoSeleccionado = videosCelebracion[indiceAleatorio];
+
+    // 2. Asignar la fuente del video y mostrar la pantalla de victoria
+    videoCelebracion.src = `videos/${videoSeleccionado}`;
+    pantallaVictoria.classList.remove('hidden');
+
+    // 3. Reproducir el video (con manejo de errores por si el navegador lo bloquea)
+    videoCelebracion.play().catch(error => {
+      console.error("Error al intentar reproducir el video de victoria:", error);
+      // Si falla la reproducción, mostramos el mensaje de texto como fallback
+      mostrarMensajeFinal();
+    });
+
+    // 4. Cuando el video termina, lo ocultamos y mostramos el mensaje final
+    videoCelebracion.onended = () => {
+      pantallaVictoria.classList.add('hidden');
+      mostrarMensajeFinal();
+    };
+  }
+
+  // --- NUEVA FUNCIÓN PARA MOSTRAR EL TEXTO FINAL ---
+  function mostrarMensajeFinal() {
+    mensajeDisplay.textContent = `🎉 ¡Felicidades! Has completado el juego en ${tiempo} segundos con ${intentos} intentos.`;
+    mensajeDisplay.classList.add("mostrar"); // Usa una clase si quieres animar la aparición del texto
   }
 
 }); // --- Fin del addEventListener 'DOMContentLoaded' ---
