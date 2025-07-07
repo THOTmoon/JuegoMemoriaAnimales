@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   // Array con los nombres de los videos de celebración
   const videosCelebracion = [
-    "celebracion-Foto1.mp4", "celebracion-Foto2.mp4", "celebracion-Foto3.mp4",
-    "celebracion-Foto4.mp4", "celebracion-Foto5.mp4", "celebracion-Foto6.mp4"
+    "Celebracion-Foto1.mp4", "Celebracion-Foto2.mp4", "Celebracion-Foto3.mp4",
+    "Celebracion-Foto4.mp4", "Celebracion-Foto5.mp4", "Celebracion-Foto6.mp4"
   ];
   
   let juego;
